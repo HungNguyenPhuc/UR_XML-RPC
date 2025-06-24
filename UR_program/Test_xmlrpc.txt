@@ -1,0 +1,13 @@
+ Program
+   Variables Setup
+   BeforeStart
+     Extend_pose≔rpc_factory("xmlrpc","http://172.17.0.1:49211/RPC2")
+   Robot Program
+     Current_pose≔get_actual_tcp_pose()
+     Recv_pose≔Extend_pose.get_pose()
+     Current_pose[0]=Recv_pose.X
+     Current_pose[1]=Recv_pose.Y
+     Current_pose[2]=Recv_pose.Z
+     Next_pose≔Current_pose
+     MoveJ
+       Next_pose

@@ -1,0 +1,48 @@
+def unnamed():
+  global _hidden_verificationVariable=0
+  step_count_9afaa83d_71e4_4d16_85ae_5942ae116719 = 0.0
+  thread Step_Counter_Thread_0ba82295_1c21_4aae_bb88_47a3e64dfb32():
+    while (True):
+      step_count_9afaa83d_71e4_4d16_85ae_5942ae116719 = step_count_9afaa83d_71e4_4d16_85ae_5942ae116719 + 1.0
+      sync()
+    end
+  end
+  run Step_Counter_Thread_0ba82295_1c21_4aae_bb88_47a3e64dfb32()
+  set_tcp(p[0.0,0.0,0.0,0.0,0.0,0.0])
+  set_safety_mode_transition_hardness(1)
+  set_gravity([0.0, 0.0, 9.82])
+  set_standard_analog_input_domain(0, 1)
+  set_standard_analog_input_domain(1, 1)
+  set_tool_analog_input_domain(0, 1)
+  set_tool_analog_input_domain(1, 1)
+  set_analog_outputdomain(0, 0)
+  set_analog_outputdomain(1, 0)
+  set_input_actions_to_default()
+  set_target_payload(0.000000, [0.000000, 0.000000, 0.000000], [0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000])
+  set_tool_communication(False, 115200, 0, 1, 1.5, 3.5)
+  set_tool_output_mode(0)
+  set_tool_digital_output_mode(0, 1)
+  set_tool_digital_output_mode(1, 1)
+  set_tool_voltage(0)
+  $ 2 "BeforeStart"
+  $ 3 "Extend_pose≔rpc_factory('xmlrpc','http://172.17.0.1:49211/RPC2')"
+  global Extend_pose=rpc_factory("xmlrpc","http://172.17.0.1:49211/RPC2")
+  while (True):
+    $ 4 "Robot Program"
+    $ 5 "Current_pose≔get_actual_tcp_pose()"
+    global Current_pose= get_actual_tcp_pose ()
+    $ 6 "Recv_pose≔Extend_pose.get_pose()"
+    global Recv_pose=Extend_pose.get_pose()
+    $ 7 "Current_pose[0]=Recv_pose.X"
+    Current_pose[0]=Recv_pose.X
+    $ 8 "Current_pose[1]=Recv_pose.Y"
+    Current_pose[1]=Recv_pose.Y
+    $ 9 "Current_pose[2]=Recv_pose.Z"
+    Current_pose[2]=Recv_pose.Z
+    $ 10 "Next_pose≔Current_pose"
+    global Next_pose=Current_pose
+    $ 11 "MoveJ"
+    $ 12 "Next_pose" "breakAfter"
+    optimovej(Next_pose, a=0.09, v=0.3)
+  end
+end
